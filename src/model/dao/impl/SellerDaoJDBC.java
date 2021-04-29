@@ -3,6 +3,7 @@ package model.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
@@ -57,17 +58,10 @@ public class SellerDaoJDBC implements SellerDao{
 		
 		rs = st.executeQuery();
 		if(rs.next()) {
-			Departament dep = new Departament();
-			dep.setId(rs.getInt("DepartmentId"));
-			dep.setName(rs.getString("name"));
-			Saller obj = new Saller();
-			obj.setId(rs.getInt("Id"));
-			obj.setName(rs.getString("name"));
-			obj.setEmail(rs.getString("Email"));
-			obj.setBaseSalary(rs.getDouble("BaseSalary"));
-			obj.setBirthDate(rs.getDate("BirthDate"));
-			obj.setDepartament(dep);
-			return obj;		
+			Departament dep = instancieteDepartament(rs);
+			Saller obj = instancieteSeller(rs, dep);
+			return obj;
+				
 			
 		}
 		
@@ -97,6 +91,25 @@ public class SellerDaoJDBC implements SellerDao{
 	public List<Saller> findByDepartament(Departament departament) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	
+	private Saller instancieteSeller(ResultSet rs, Departament dep) throws SQLException {
+		Saller obj = new Saller();
+		obj.setId(rs.getInt("Id"));
+		obj.setName(rs.getString("name"));
+		obj.setEmail(rs.getString("Email"));
+		obj.setBaseSalary(rs.getDouble("BaseSalary"));
+		obj.setBirthDate(rs.getDate("BirthDate"));
+		obj.setDepartament(dep);
+		return obj;		
+	}
+	
+	private Departament instancieteDepartament(ResultSet rs) throws SQLException {
+		Departament dep = new Departament();
+		dep.setId(rs.getInt("DepartmentId"));
+		dep.setName(rs.getString("name"));
+		return dep;
 	}
 	
 	
