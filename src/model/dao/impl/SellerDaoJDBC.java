@@ -1,8 +1,13 @@
 package model.dao.impl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.List;
 
+import db.DB;
+import db.DbException;
 import model.dao.SellerDao;
 import model.entities.Departament;
 import model.entities.Saller;
@@ -36,8 +41,50 @@ public class SellerDaoJDBC implements SellerDao{
 
 	@Override
 	public Saller findById(Integer id) {
-		// TODO Auto-generated method stub
+		
+		PreparedStatement st = null;
+	    ResultSet rs = null;
+		
+		try{		
+		
+		st = conn.prepareStatement(
+				"SELECT seller.*,department.Name as DepName " 
+				+ "FROM seller INNER JOIN department "
+				+ "ON seller.DepartmentId = department.Id "
+				+ "WHERE seller.Id = ?");
+		
+		st.setInt(1, id);
+		
+		rs = st.executeQuery();
+		if(rs.next()) {
+			Departament dep = new Departament();
+			dep.setId(rs.getInt("DepartmentId"));
+			dep.setName(rs.getString("name"));
+			Saller obj = new Saller();
+			obj.setId(rs.getInt("Id"));
+			obj.setName(rs.getString("name"));
+			obj.setEmail(rs.getString("Email"));
+			obj.setBaseSalary(rs.getDouble("BaseSalary"));
+			obj.setBirthDate(rs.getDate("BirthDate"));
+			obj.setDepartament(dep);
+			return obj;		
+			
+		}
+		
 		return null;
+		
+		
+		}
+		
+		catch (Exception e) {
+			throw new DbException(e.getMessage());
+		}
+		
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+		
 	}
 
 	@Override

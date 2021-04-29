@@ -8,20 +8,22 @@ public class Saller implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
-	private String nome,email;
+	private String name,email;
 	private Date birthDate;
 	private Double baseSalary;
+	private Departament departament;
 	
 	public Saller () {		
 	}
 
-	public Saller(Integer id, String nome, String email, Date birthDate, Double baseSalary) {
+	public Saller(Integer id, String name, String email, Date birthDate, Double baseSalary, Departament departament) {
 		super();
 		this.id = id;
-		this.nome = nome;
+		this.name = name;
 		this.email = email;
 		this.birthDate = birthDate;
 		this.baseSalary = baseSalary;
+		this.departament = departament;
 	}
 
 	public Integer getId() {
@@ -32,12 +34,12 @@ public class Saller implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {
@@ -63,6 +65,16 @@ public class Saller implements Serializable {
 	public void setBaseSalary(Double baseSalary) {
 		this.baseSalary = baseSalary;
 	}
+	
+	
+
+	public Departament getDepartament() {
+		return departament;
+	}
+
+	public void setDepartament(Departament departament) {
+		this.departament = departament;
+	}
 
 	@Override
 	public int hashCode() {
@@ -71,6 +83,8 @@ public class Saller implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+	
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -91,7 +105,7 @@ public class Saller implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Saller [id=" + id + ", nome=" + nome + ", email=" + email + ", birthDate=" + birthDate + ", baseSalary="
+		return "Saller [id=" + id + ", nome=" + name + ", email=" + email + ", birthDate=" + birthDate + ", baseSalary="
 				+ baseSalary + "]";
 	}
 	
